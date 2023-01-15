@@ -3,6 +3,10 @@ $dsn = 'mysql:dbname=php_db_app;host=localhost;charset=utf8mb4';
 $user = 'root';
 $password = 'root';
 
+// submitパラメータの値が存在するとき（「登録」ボタンを押したとき）の処理
+if (isset($_POST['submit'])) {
+ 
+}
 // セレクトボックスの選択肢として設定するため、仕入先コードの配列を取得する
 try {
   $pdo = new PDO($dsn, $user, $password);
