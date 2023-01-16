@@ -30,9 +30,9 @@ if (isset($_POST['submit'])) {
 
     $message = "商品を{$count}件登録しました。";
 
-    
-    // 商品一覧へページリダイレクト
-    header("Location: read.php");
+
+    // 商品一覧ページにリダイレクトさせる（同時にmessageパラメータも渡す）
+    header("Location: read.php?message={$message}");
   } catch (PDOException $e) {
     exit($e->getMessage());
   }
