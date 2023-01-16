@@ -72,6 +72,13 @@ if ($order === 'desc') {
     <main>
       <article class="products">
         <h1>商品一覧</h1>
+        <?php
+        // （商品の登録・編集・削除後）messageパラメータの値を受け取っていれば、それを表示する
+        if (isset($_GET['message'])) {
+          echo "<p class='success'>{$_GET['message']}</p>";
+        }
+        ?>
+        
         <div class="products-ui">
           <div>
             <!-- ここに並び替えボタンと検索ボックスを作成する -->
