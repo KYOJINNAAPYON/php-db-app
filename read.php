@@ -75,10 +75,10 @@ if ($order === 'desc') {
         <div class="products-ui">
           <div>
             <!-- ここに並び替えボタンと検索ボックスを作成する -->
-            <a href="read.php?order=desc$keyword=<?= $keyword ?>">
+            <a href="read.php?order=desc&keyword=<?= $keyword ?>">
               <img src="images/desc.png" alt="降順に並べ替え" class="sort-img">
             </a>
-            <a href="read.php?order=asc$keyword=<?= $keyword ?>">
+            <a href="read.php?order=asc&keyword=<?= $keyword ?>">
               <img src="images/asc.png" alt="昇順に並べ替え" class="sort-img">
             </a>
             <form action="read.php" method="get" class="search-form">
