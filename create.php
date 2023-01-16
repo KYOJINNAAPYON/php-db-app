@@ -25,6 +25,12 @@ if (isset($_POST['submit'])) {
     // SQL文実行
     $stmt_insert->execute();
 
+    // 追加した件数を取得
+    $count = $stmt_insert->rowCount();
+
+    $message = "商品を{$count}件登録しました。";
+
+    
     // 商品一覧へページリダイレクト
     header("Location: read.php");
   } catch (PDOException $e) {
