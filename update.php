@@ -3,6 +3,46 @@ $dsn = 'mysql:dbname=php_db_app;host=localhost;charset=utf8mb4';
 $user = 'root';
 $password = 'root';
 
+// submitパラメータの値が存在するとき（「更新」ボタンを押したとき）の処理
+if (isset($_POST['submit'])) {
+  try {
+    $pdo = new PDO($dsn, $user, $password);
+
+    // 動的に変わる値をプレースホルダに置き換えたUPDATE文をあらかじめ用意する
+    $sql_update = '
+    UPDATE products
+    SET product_code = :product_code,
+    product_name = :product_name,
+    price = :price,
+    stock_quantity = :stock_quantity,
+    vendor_code = :vendor_code
+    WHERE id = :id
+    ';
+
+    $stmt_update = $pdo->prepare($sql_update);
+
+    // bindValue()メソッドを使って実際の値をプレースホルダにバインドする（割り当てる）
+    $stmt_update->bindValue(':product_code', $_POST['product_code'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':product_name', $_POST['product_name'], PDO::PARAM_STR);
+    $stmt_update->bindValue(':price', $_POST['price'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':stock_quantity', $_POST['stock_quantity'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':vendor_code', $_POST['vendor_code'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+
+    // SQL実行
+    $stmt_update->execute();
+
+    // 更新した数を取得して表示
+    $count = $stmt_update->rowCount();
+    $message = "商品を{$count}件編集しました。";
+
+    // 商品一覧readにリダイレクト
+    header("Location: read.php?message={$message}");
+  } catch (PDOException $e) {
+    exit($e->getMessage());
+  }
+}
+
 // idパラメータの値が存在すれば処理を行う
 if (isset($_GET['id'])) {
   try {
@@ -70,7 +110,7 @@ if (isset($_GET['id'])) {
              <div class="back">
                  <a href="read.php" class="btn">&lt; 戻る</a>
              </div>
-             <form action="update.php?id=<? $_GET['id'] ?>" method="post" class="registration-form">
+             <form action="update.php?id=<?= $_GET['id'] ?>" method="post" class="registration-form">
               <div>
                 <label for="product_code">商品コード</label>
                 <input type="number" name="product_code" value="<?= $product['product_code'] ?>" min="0" max="100000000" required>
